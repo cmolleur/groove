@@ -1,0 +1,32 @@
+.overlay {
+    background: url("http://s14.directupload.net/images/111129/44ga9qid.png");
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  flex-direction: column;
+}
+/*nav {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(0, 0, 0, 0)));
+  height: 50px;
+  display: block;
+  z-index: 2000;
+  position: fixed;
+}*/
+nav {
+  background-color: #222;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

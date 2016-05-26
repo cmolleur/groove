@@ -5,7 +5,8 @@ var dotEnv          = require('dotenv').config(),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
     app             = express(),
-    indexRouter     = require('./server/routes/index.js'),
+    indexRouter     = require('./server/routes/index.js')
+    userRouter     = require('./server/routes/user-profile.js')
 
 app.set('view engine', 'ejs');
 
@@ -27,6 +28,8 @@ app.use(bodyParser.json());
 var indexRouter = require('./server/routes/index.js');
 app.use('/', indexRouter);
 
+var indexRouter = require('./server/routes/user-profile.js');
+app.use('/user-profile', userRouter);
 
 // Set static file root folder
 app.use(express.static('client/public'));
@@ -36,5 +39,5 @@ app.use('/', indexRouter);
 var port = process.env.PORT || 8080;
 
 app.listen( port, function(){
-  console.log( '... awaiting connections on port: 8080' );
+  console.log( 'Free margaritas on Port:8080' );
 });
