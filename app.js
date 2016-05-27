@@ -1,6 +1,7 @@
 var dotEnv          = require('dotenv').config(),
     express         = require('express'),
     morgan          = require('morgan'),
+    passport        = require('./server/lib/passportStrategy.js'),
     mongoose        = require('mongoose'),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
@@ -35,6 +36,20 @@ app.use('/user-profile', userRouter);
 app.use(express.static('client/public'));
 
 app.use('/', indexRouter);
+
+app.get('/auth/spotify',
+  passport.authenticate('spotify'),
+  function(req, res){
+    // The request will be redirected to spotify for authentication, so this
+    // function will not be called.
+  });
+
+app.get('/auth/spotify/callback',
+  passport.authenticate('spotify', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 var port = process.env.PORT || 8080;
 

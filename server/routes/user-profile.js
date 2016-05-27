@@ -7,6 +7,7 @@ var express = require('express'),
     path = require('path');
 
 router.get('/', function(req, res, next) {
+  
   res.sendFile( path.resolve('client/public/views/user-profile.html') );
 });
 

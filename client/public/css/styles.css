@@ -29,4 +29,60 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 25px;
+}
+.playlist-art {
+  width: 200px;
+  height: auto;
+}
+.playlist {
+  padding: 0;
+  overflow: scroll;
+
+}
+.playlist li {
+  display: inline-table;
+  width: 230px;
+}
+.welcome-header {
+  font-size: 40px;
+  color: #F0493E;
+}
+.thumbnail-friend {
+  width: 100px;
+  height: auto;
+}
+.friends {
+  padding: 0;
+}
+.friends li {
+  display: inline-block;
+  margin-right: 15px;
+}
+.friends h3 {
+  text-align: center;
+}
+footer {
+  padding: 15px;
+  background-color: #222;
+  text-align: center;
+  color: white;
+}
+#headers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+@media (max-width: 539px) {
+  #headers {
+    display: block;
+  }
+  .welcome-header {
+    font-size: 30px;
+  }
+  .add {
+    
+  }
 }

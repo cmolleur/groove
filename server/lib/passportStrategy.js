@@ -1,5 +1,6 @@
 var User          = require('../models/user.js'),
     passport      = require('passport'),
+    SpotifyStrategy      = require('passport-spotify').Strategy,
     LocalStrategy = require('passport-local').Strategy,
     JwtStrategy   = require('passport-jwt').Strategy,
     ExtractJwt    = require('passport-jwt').ExtractJwt,
@@ -57,5 +58,18 @@ passport.use( new LocalStrategy(
     });
   })
 );
+
+// SpotifyStrategy
+passport.use(new SpotifyStrategy({
+    clientID: process.env.client_id,
+    clientSecret: process.env.client_secret,
+    callbackURL: process.env.redirect_uri
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ spotifyId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
 
 module.exports = passport;
