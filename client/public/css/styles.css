@@ -37,12 +37,15 @@ nav {
 }
 .playlist {
   padding: 0;
-  overflow: scroll;
-
+  width: 2000px;
 }
 .playlist li {
   display: inline-table;
   width: 230px;
+}
+.playlist li h5 {
+  margin-top: 5px;
+  color: #999;
 }
 .welcome-header {
   font-size: 40px;
@@ -74,6 +77,22 @@ footer {
   justify-content: space-between;
   padding: 15px;
 }
+#logomark {
+  /*border-radius: 50%;*/
+  -webkit-transition: -webkit-transform 1s ease-in-out;
+  transition: transform 1s ease-in-out;
+}
+#logomark:hover {
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.ui.positive.button, .ui.positive.buttons .button {
+  background-color: #F0493E;
+}
+#all-playlists {
+  overflow-x: scroll;
+}
 
 @media (max-width: 539px) {
   #headers {
@@ -83,6 +102,26 @@ footer {
     font-size: 30px;
   }
   .add {
-    
+    margin-top: 15px;
+  }
+  .playlist li {
+    padding: 15px;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #F0493E;
+    margin-bottom: 15px;
+    color: white;
+  }
+  .playlist li img {
+    display: none;
+  }
+  .playlist li h3 {
+    font-size: 24px;
+  }
+  .playlist li h5 {
+    color: white;
+  }
+  .playlist {
+    width: auto;
   }
 }

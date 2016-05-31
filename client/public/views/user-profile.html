@@ -23,9 +23,44 @@
 
   </head>
   <body ng-controller="OAuthController" ng-init="getUserInfo()">
+
+    <!-- MODAL -->
+    <div class="ui modal">
+      <i class="close icon"></i>
+      <div class="image content">
+        <div class="description">
+          <h1>Create a New Playlist</h1>
+          <form class="ui form">
+            <div class="field">
+              <label>Playlist Name</label>
+              <input type="text" name="name" placeholder="Playlist Name" ng-model="playlistTitle">
+            </div>
+            <div class="field">
+              <label>Add Friends</label>
+              <input type="text" name="friends" placeholder="Search...">
+            </div>
+            <div class="field">
+              <label>Add Cover Image</label>
+              <input type="text" name="friends" placeholder="Image">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="#" ng-click="createPlaylist(playlistTitle)">
+          <div class="ui positive right labeled icon button">
+            Create
+            <i class="checkmark icon"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    <!-- NAV -->
     <nav>
       <svg id="logomark" width="50" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120.03 120.15"><defs><style>.cls-1{fill:none;}.cls-2{fill:#f0493e;}.cls-3{clip-path:url(#clip-path);}.cls-4{fill:#c62127;}.cls-5{fill:#fff;}</style><clipPath id="clip-path" transform="translate(-335.25 -370.41)"><circle class="cls-1" cx="395.26" cy="430.43" r="60.02"/></clipPath></defs><title>groove-logomark</title><circle class="cls-2" cx="60.02" cy="60.02" r="60.02"/><g class="cls-3"><path class="cls-4" d="M368.46,467.2l26.81,23.24s38.08,4.21,55.88-37.82c6.49-15.32,3.14-33.16,3.14-33.16l-34.19-28.89L402,402.74l-20,5.08-4.86,11.65,7,15.14v8.1l-10.81,9.08Z" transform="translate(-335.25 -370.41)"/></g><path class="cls-5" d="M400.06,397.43c1.14,0.23,1.94.46,2.28,0.46,5.25,0,8.33-10.5,12.9-10.5,3.08,0,9.36,8.11,9.36,9.93,0,3.43-10.62,0-10.62,5.94,0,3.43,5.82,5.71,5.82,18,0,11.87-7.54,24.43-24.55,24.43-6.28,0-13.93,3.88-13.93,7.19a3.92,3.92,0,0,0,3.88,3.88c4.8,0,14.27-5.71,25-5.71,2.63,0,12.1,2.51,12.1,6.62,0,3-4.57,15.76-8,15.76-2.85,0-3-5.71-9.36-5.71-3.42,0-7,1.37-10.73,2.85s-7.54,2.85-11.87,2.85c-9,0-16.44-5.25-16.44-14.61,0-13.36,13-14.61,13-17.81,0-2.74-8.22-7.76-8.22-20.09,0-15,9.25-24,24.55-24A26.26,26.26,0,0,1,400.06,397.43Zm6.28,22c0-7.31-4.91-11.65-11.07-11.65s-11.07,4.34-11.07,11.65c0,6.74,4.34,11.65,11.07,11.65C401.43,431.11,406.34,426.77,406.34,419.47Z" transform="translate(-335.25 -370.41)"/></svg>
-      <button class="ui button" ng-click="logOut()">Logout</button>
+      <a href="/"><button class="ui button" ng-click="logOut()">Logout</button></a>
     </nav>
 
     <div class="ui container">
@@ -38,16 +73,18 @@
             <h1>Your Playlists</h1>
           </div>
           <div class="add">
-            <a href="#"><i class="plus icon"></i>Add Playlist</a>
+            <a href="#" class="add-playlists"><i class="plus icon"></i>Add Playlist</a>
           </div>
         </div>
         <div class="one column row">
-          <div class="column">
+          <div id="all-playlists"  class="column">
             <ul class="playlist">
               <li ng-repeat="playlist in playlists">
-                <h3>{{playlist.name}}</h3>
-                <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
-                <h5>Shared With: </h5>
+                <a href="#">
+                  <h3>{{playlist.name}}</h3>
+                  <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
+                  <h5>Shared With: </h5>
+                </a>
               </li>
             </ul>
           </div>
@@ -55,28 +92,23 @@
       </div>
 
       <!-- FRIENDS -->
+
       <div class="ui vertically divided grid">
-        <div class="one column row">
-          <div class="column">
-            <div class="ui grid">
-              <div class="left floated five wide column">
-                <h1>Your Friends</h1>
+        <div id="headers" class="one column row">
+          <div class="title">
+            <h1>Your Friends</h1>
+          </div>
+          <div class="add">
+            <div class="ui search">
+              <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search Friends...">
+                <i class="search icon"></i>
               </div>
-              <div class="right floated five wide column">
-                <!-- <a href="#"><i class="add user icon"></i>Add Friends</a> -->
-                <div class="ui search">
-                  <div class="ui icon input">
-                    <input class="prompt" type="text" placeholder="Search Friends...">
-                    <i class="search icon"></i>
-                  </div>
-                  <div class="results"></div>
-                </div>
-
-
-              </div>
+              <div class="results"></div>
             </div>
           </div>
         </div>
+
         <div class="one column row">
           <div class="column">
             <ul class="friends">

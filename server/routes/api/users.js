@@ -13,7 +13,10 @@ usersRouter.post('/', function(req, res, next) {
   });
 });
 
-usersRouter.use(passport.authenticate('jwt', { session: false}));
+
+
+
+// usersRouter.use(passport.authenticate('jwt', { session: false}));
 
 // GET all users
 usersRouter.get('/', function(req, res, next) {

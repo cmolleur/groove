@@ -25,20 +25,34 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       };
       console.log("oauth: ", oauth);
     } else {
-      alert("Problem Authenticating!");
+      console.log("Problem Authenticating!");
+      $window.location.href = "http://localhost:8080/"
     }
 
-    console.log( "params: " )
-    console.log( params )
+    console.log( "params: ", params )
 
     $http.get("https://api.spotify.com/v1/me/", { headers: { Authorization: "Bearer " + oauth.access_token} }).then(function(response){
       console.log("Response ", response);
+
+
+      // $scope.getUser( response.data.email ).then( function(response){
+      //   if(response.error){
+      //     $scope.saveUser({ name: response.data.display_name,
+      //                       email: response.data.email
+      //                    })
+      //   } else {
+      //     $scope.getFriends();
+      //   }
+      //   $scope.getFriends()
+      //
+      // });
 
       $scope.user = response.data.display_name.split(" ")[0];
       userId = response.data.id;
       // console.log("Response " + response);
 
       $scope.getUserPlaylists();
+      $scope.createPlaylist();
     });
 
     // maybe check if token's valid - OTHER FUNCTION
@@ -52,17 +66,62 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     $http.get("https://api.spotify.com/v1/me/playlists",  { headers: { Authorization: "Bearer " + oauth.access_token}}).then(function(response){
       $scope.playlists = response.data.items;
       console.log($scope.playlists);
+      for (var i = 0; i < $scope.playlists.length; i++) {
+        if($scope.playlists[i].images[0].url) {
+          console.log("This item has an image");
+        }else {
+          console.log("This item does not");
+        }
+      }
 
+    });
+  }
+
+  $scope.createPlaylist = function(playlistTitle){
+    $http({
+      method: 'POST',
+      url: 'https://api.spotify.com/v1/users/me/playlists',
+      data: "name=" + playlistTitle,
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + 'oauth.access_token'}
+    }).then(function(response){
+      console.log(response);
+    });
+  }
+
+  $scope.getPlaylistTracks = function(){
+  }
+
+  $scope.addFriend = function(){
+    $http.put("https://api.spotify.com/v1/me/following", { headers: { Authorization: "Bearer " + oauth.access_token}}).then(function(response){
     });
   }
 
 
 
+
   //look up refresh token, to see if your current token is valid
 
+  $scope.getUser = function(email){
+    //consider taking advantage of the jwt protection
+    // $http.get("/myself/" + email);
+  }
 
+  $scope.saveUser = function(userData){
+    // //consider taking advantage of the jwt protection
+    // $http.post("/users")
+    //      .then(function(response){
+    //
+    //      })
+  }
 
-}])
+  $scope.getFriends = function(){} // gets your friends from Mongo
+
+  $scope.update_user = function(){} // update users
+
+  $scope.add_friend = function(){} // add a friend to a user
+  //ajax put route
+
+}]) // controller
 
 
 //everyone that logs into oauth in my app, will get stored as a user in my own database that people can then add as friends.
