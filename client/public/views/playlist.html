@@ -33,16 +33,24 @@
     </nav>
     <div class="ui container">
       <a href="/user-profile">
-        <i class="angle double left icon"></i>View All Playlist</a>
+        <i class="angle double left icon"></i>View All Playlists
+      </a>
 
       <div class="ui vertically divided grid">
 
-        <div class="one column row">
+        <div style="border-bottom: 1px solid #e0e0e0;" class="one column row">
           <div id="playlist-info" class="column">
             <img ng-src="{{playlist.images[0].url}}" class="img-thumb" alt="" />
             <div class="title-collaborators">
-              <h1 class="welcome-header">{{playlist.name}}</h1>
-              <p>Collaborating with: N/A</p>
+              <h1 style="margin-bottom: 0;" class="welcome-header">{{playlist.name}}</h1>
+              <h3 style="margin-top: 0;">
+                Followers: {{followers}}
+              </h3>
+              <a target="_blank" href="{{playlist.external_urls.spotify}}">
+                <h3 style="margin-top: 0;">
+                  <i class="music icon"></i>Play in Spotify
+                </h3>
+              </a>
             </div>
           </div>
         </div>
@@ -56,7 +64,7 @@
             </div>
             <div id="song" class="ui grid"  ng-repeat="track in tracks">
               <div class="six wide column">{{track.track.name}}</div>
-              <div class="six wide column album">{{track.track.album.name}}</div>
+              <div class="six wide column album">{{track.track.album.name | limitTo : 30 : 0}}</div>
               <div class="four wide column">{{track.track.artists[0].name}}</div>
             </div>
           </div>
@@ -87,7 +95,7 @@
                            <a ng-click="addTrack($index)"><i class="add circle icon"></i></a>
                          </div>
                          <div class="right">
-                           {{result.name}}</br> <p class="artist">{{result.artists[0].name}}</p>
+                           {{result.name}}<p class="artist">{{result.artists[0].name}}</p>
                          </div>
                       </div>
                     </li>

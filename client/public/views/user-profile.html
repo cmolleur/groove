@@ -26,28 +26,67 @@
   </head>
   <body ng-controller="OAuthController" ng-init="getUserInfo()">
 
-    <!-- MODAL -->
-    <div class="ui modal">
+    <!-- MODAL 1 -->
+    <div id="create" class="ui modal">
       <i class="close icon"></i>
       <div class="image content">
         <div class="description">
           <h1>Create a New Playlist</h1>
           <form class="ui form">
-            <div class="field">
+            <div class="required field">
               <label>Playlist Name</label>
               <input type="text" name="name" placeholder="Playlist Name" ng-model="playlistTitle">
-            </div>
-            <div class="field">
-              <label>Add Friends</label>
-              <input type="text" name="friends" placeholder="Search...">
             </div>
           </form>
         </div>
       </div>
       <div class="actions">
         <a href="#" ng-click="createPlaylist(playlistTitle, albumArt)">
+          <div class="ui black deny button">
+            Cancel
+          </div>
           <div class="ui positive right labeled icon button">
             Create
+            <i class="checkmark icon"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- MODAL 2 -->
+    <div id="find" class="ui modal">
+      <i class="close icon"></i>
+      <div class="image content">
+        <div class="description">
+          <h1>Search for Playlists</h1>
+          <div class="ui">
+            <form ng-submit="searchPlaylists(playlist)">
+              <div class="ui icon input full-width">
+                  <input class="prompt" type="text" placeholder="Search Playlists..." ng-model="playlist">
+                  <i class="search icon"></i>
+              </div>
+            </form>
+            <div class="search-results">
+              <ul>
+                <li ng-repeat="singlePlaylist in allSearchedPlaylists">
+                  <div class="track-name">
+                     <div class="left">
+                       <a ng-click="followPlaylist($index)"><i class="add circle icon"></i></a>
+                     </div>
+                     <div id="playlistresults" class="right">
+                       {{singlePlaylist.name}}<p class="artist">Owner: {{singlePlaylist.owner.id}}</p><!-- RESULTS GO HEREEEEEE!! -->
+                     </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="#">
+          <div class="ui positive right labeled icon button">
+            Done
             <i class="checkmark icon"></i>
           </div>
         </a>
@@ -71,7 +110,7 @@
             <h1>Your Playlists</h1>
           </div>
           <div class="add">
-            <a href="#" class="add-playlists"><i class="plus icon"></i>Add Playlist</a>
+            <a href="#" class="add-playlists"><i class="plus icon"></i>Add Playlist</a> | <a href="#" class="find-playlists"><i class="search icon"></i>Find Playlist</a>
           </div>
         </div>
         <div class="one column row">
@@ -101,20 +140,12 @@
             <h1>Your Friends</h1>
           </div>
 
-          <div class="add">
-            <div class="ui search">
-              <div class="ui icon input">
-                <input class="prompt" id="search-playlists" type="text" placeholder="Follow a Playlist">
-                <i class="search icon"></i>
-              </div>
-              <div class="results"></div>
-            </div>
-          </div>
+
 
         </div>
 
         <div class="one column row">
-          <div class="column">
+          <div style="padding: 0;" class="column">
             <ul class="friends">
               <li>
                 <h3>Kim</h3>

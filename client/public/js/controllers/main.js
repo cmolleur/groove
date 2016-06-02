@@ -23,10 +23,15 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
     if( Cookies.get("spotify_token") !== "undefined" ){
       oauth = {access_token: Cookies.get("spotify_token")};
+      // oauth = {access_token: params.access_token};
+      // Cookies.set("spotify_token", oauth.access_token);
+
+
+
       // Cookies.set("spotify_token", oauth.access_token);
         // consider adding the expires in and starting a timer
       // console.log("oauth: ", oauth);
-      // console.log('should not run');
+      console.log("help me I'm broken!");
     } else if (params.access_token){
       oauth = {access_token: params.access_token};
       Cookies.set("spotify_token", oauth.access_token);
@@ -41,7 +46,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     $window.location.hash = '';
 
 
-    console.log( "params: ", params )
+    // console.log( "params: ", params )
 
     $http.get("https://api.spotify.com/v1/me/", { headers: { Authorization: "Bearer " + oauth.access_token} }).then(function(response){
       console.log("Response ", response);
@@ -89,7 +94,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       method: 'POST',
       url: "https://api.spotify.com/v1/users/" + $scope.userId + "/playlists",
       data: JSON.stringify({
-        "name": playlistTitle
+        "name": playlistTitle,
+        "public": true
       }),
       headers: { "Authorization": "Bearer " + oauth.access_token, "Content-Type": "application/json" }
     }).then(function(response){
@@ -104,10 +110,12 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
       $scope.firstName = Cookies.get("userFirstName");
       $scope.playlist = response.data;
+      $scope.followers = response.data.followers.total;
       $scope.tracks = response.data.tracks.items;
       for (var i = 0; i < $scope.tracks.length; i++) {
         $scope.artists = $scope.tracks[i].track.artists;
       }
+
     });
   }
 
@@ -122,9 +130,21 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     })
   }
 
-  $scope.addTrack = function($index){
+  $scope.searchPlaylists = function(playlist){
+    $http.get("https://api.spotify.com/v1/search?q="+ playlist + "&type=playlist&limit=10").then(function(response){
+      $scope.allSearchedPlaylists = response.data.playlists.items;
+      console.log($scope.allSearchedPlaylists);
+      for (var i = 0; i < $scope.allSearchedPlaylists.length; i++) {
+        $scope.followplaylistId = $scope.allSearchedPlaylists[i].id
+        $scope.playlistOwnerId = $scope.allSearchedPlaylists[i].owner.id;
+      }
+      if (response == 0) {
+        alert("No such playlist, search again")
+      }
+    })
+  }
 
-    console.log($index);
+  $scope.addTrack = function($index){
     $http({
       method: 'POST',
       url: "https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
@@ -135,7 +155,17 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     }).then(function(response){
       $scope.getPlaylistInfo();
     })
+  }
 
+  $scope.followPlaylist = function(){
+    // PUT https://api.spotify.com/v1/users/{owner_id}/playlists/{playlist_id}/followers
+    $http({
+      method: 'PUT',
+      url: "https://api.spotify.com/v1/users/" + $scope.playlistOwnerId + "/playlists/" + $scope.followplaylistId + "/followers",
+      headers: { "Authorization": "Bearer " + Cookies.get("spotify_token"), "Content-Type": "application/json" }
+    }).then(function(response){
+      console.log("Successfully followed!");
+    })
   }
 
 
@@ -160,6 +190,9 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
   $scope.addFriend = function(){} // add a friend to a user
   //ajax put route
+
+
+
 
 }]) // controller
 
