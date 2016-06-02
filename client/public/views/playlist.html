@@ -32,9 +32,8 @@
       <a href="/"><button class="ui button" ng-click="logOut()">Logout</button></a>
     </nav>
     <div class="ui container">
-      <a href="/user-profile">
-        <!-- <i class="chevron left icon"></i> -->
-        <i class="angle double left icon"></i>View All Playlist</a>
+      <!-- <a href="/user-profile">
+        <i class="angle double left icon"></i>View All Playlist</a> -->
 
       <div class="ui vertically divided grid">
 
@@ -51,14 +50,14 @@
         <div style="padding: 15px;" class="one column row">
           <div class="column">
             <div class="ui grid headers">
-              <div class="seven wide column playlist-headers">SONG</div>
+              <div class="six wide column playlist-headers">SONG</div>
               <div class="six wide column playlist-headers album">ALBUM</div>
-              <div class="three wide column playlist-headers">ARTIST</div>
+              <div class="four wide column playlist-headers">ARTIST</div>
             </div>
             <div id="song" class="ui grid"  ng-repeat="track in tracks">
-              <div class="seven wide column">{{track.track.name}}</div>
+              <div class="six wide column">{{track.track.name}}</div>
               <div class="six wide column album">{{track.track.album.name}}</div>
-              <div class="three wide column">{{track.track.artists[0].name}}</div>
+              <div class="four wide column">{{track.track.artists[0].name}}</div>
             </div>
           </div>
         </div>

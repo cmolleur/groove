@@ -77,13 +77,16 @@
         <div class="one column row">
           <div id="all-playlists"  class="column">
             <ul class="playlist">
+              <a href="/playlist/{{playlist.id}}">
               <li ng-repeat="playlist in playlists">
-                <a href="/playlist/{{playlist.id}}">
+                <div class="playlist-title">
                   <h3>{{playlist.name}}</h3>
                   <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
                   <h5>Shared With: </h5>
-                </a>
+                </div>
+                <i class="caret right icon"></i>
               </li>
+            </a>
             </ul>
           </div>
         </div>
@@ -114,15 +117,27 @@
           <div class="column">
             <ul class="friends">
               <li>
-                <h3>Chad</h3>
+                <h3>Kim</h3>
                 <img class="thumbnail-friend" src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
               </li>
               <li>
-                <h3>Ryan</h3>
+                <h3>Chris</h3>
                 <img class="thumbnail-friend"  src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
               </li>
               <li>
                 <h3>Billy</h3>
+                <img class="thumbnail-friend"  src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
+              </li>
+              <li>
+                <h3>Michelle</h3>
+                <img class="thumbnail-friend" src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
+              </li>
+              <li>
+                <h3>Nicole</h3>
+                <img class="thumbnail-friend"  src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
+              </li>
+              <li>
+                <h3>Mike</h3>
                 <img class="thumbnail-friend"  src="https://pixabay.com/static/uploads/photo/2014/04/02/10/25/man-303792_960_720.png" alt="" />
               </li>
             </ul>

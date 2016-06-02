@@ -76,6 +76,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
 #logomark {
   /*border-radius: 50%;*/
@@ -172,11 +173,19 @@ i.circle {
 .column {
   overflow: hidden;
 }
+i.caret, i.right {
+  font-size: 1.5em;
+  display: none;
+}
 
+
+/****************/
+/*MEDIA QUERIES*/
+/****************/
 @media (max-width: 539px) {
-  #headers {
+  /*#headers {
     display: block;
-  }
+  }*/
   .welcome-header {
     font-size: 27px;
   }
@@ -190,6 +199,9 @@ i.circle {
     background-color: #F0493E;
     margin-bottom: 15px;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .playlist li:hover {
     background-color: #d62e22;
@@ -200,12 +212,19 @@ i.circle {
   .playlist li h3 {
     font-size: 24px;
     color: white;
+    margin-bottom: 0;
   }
   .playlist li h5 {
-    color: white;
+    display: none;
   }
   .playlist {
     min-width: auto;
+  }
+  i.caret, i.right {
+    display: block;
+  }
+  #all-playlists {
+    overflow-x: auto;
   }
 }
 @media (max-width: 729px) {

@@ -25,7 +25,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       console.log("oauth: ", oauth);
     } else {
       console.log("Problem Authenticating!");
-      $window.location.href = "/"
+      $window.location.href = "https://groovemusic.herokuapp.com"
     }
 
     console.log( "params: ", params )
