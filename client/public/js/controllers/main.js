@@ -1,5 +1,5 @@
 var app = angular.module("GrooveApp", [])
-var redirectURI = "http://groovemusic.herokuapp.com/"
+var redirectURI = "https://groovemusic.herokuapp.com/"
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
