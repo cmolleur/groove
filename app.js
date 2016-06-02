@@ -6,9 +6,14 @@ var dotEnv          = require('dotenv').config(),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
     app             = express(),
-    indexRouter     = require('./server/routes/index.js')
-    userRouter      = require('./server/routes/user-profile.js')
-    playlistRouter  = require('./server/routes/playlist.js')
+    indexRouter     = require('./server/routes/index.js'),
+    userRouter      = require('./server/routes/user-profile.js'),
+    playlistRouter  = require('./server/routes/playlist.js'),
+
+    app = require('express')(),
+    http = require('http').Server(app),
+    io = require('socket.io')(http);
+
 
 app.set('view engine', 'ejs');
 
@@ -52,6 +57,12 @@ app.get('/auth/spotify/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
   });
+
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
 
 var port = process.env.PORT || 8080;
 

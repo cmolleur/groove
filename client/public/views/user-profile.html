@@ -39,15 +39,11 @@
               <label>Add Friends</label>
               <input type="text" name="friends" placeholder="Search...">
             </div>
-            <div class="field">
-              <label>Add Cover Image</label>
-              <input type="text" name="friends" placeholder="Image">
-            </div>
           </form>
         </div>
       </div>
       <div class="actions">
-        <a href="#" ng-click="createPlaylist(playlistTitle)">
+        <a href="#" ng-click="createPlaylist(playlistTitle, albumArt)">
           <div class="ui positive right labeled icon button">
             Create
             <i class="checkmark icon"></i>
@@ -80,7 +76,7 @@
           <div id="all-playlists"  class="column">
             <ul class="playlist">
               <li ng-repeat="playlist in playlists">
-                <a href="#">
+                <a href="/playlist/{{playlist.id}}">
                   <h3>{{playlist.name}}</h3>
                   <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
                   <h5>Shared With: </h5>
@@ -101,7 +97,7 @@
           <div class="add">
             <div class="ui search">
               <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Search Friends...">
+                <input class="prompt" type="text" placeholder="Add Friend...">
                 <i class="search icon"></i>
               </div>
               <div class="results"></div>

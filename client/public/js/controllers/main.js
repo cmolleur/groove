@@ -3,7 +3,7 @@ var app = angular.module("GrooveApp", [])
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
-    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=http://localhost:8080/user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative'
+    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=http://localhost:8080/user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify'
   }
 
   $scope.getUserInfo = function(){
@@ -19,10 +19,9 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     })
 
     if( params.access_token ){
-      oauth = {
-        access_token: params.access_token
+      oauth = {access_token: params.access_token};
+      Cookies.set("spotify_token", oauth.access_token);
         // consider adding the expires in and starting a timer
-      };
       console.log("oauth: ", oauth);
     } else {
       console.log("Problem Authenticating!");
@@ -33,7 +32,6 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
     $http.get("https://api.spotify.com/v1/me/", { headers: { Authorization: "Bearer " + oauth.access_token} }).then(function(response){
       console.log("Response ", response);
-
 
       // $scope.getUser( response.data.email ).then( function(response){
       //   if(response.error){
@@ -48,11 +46,9 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       // });
 
       $scope.user = response.data.display_name.split(" ")[0];
-      userId = response.data.id;
-      // console.log("Response " + response);
-
+      $scope.userId = response.data.id;
+      Cookies.set("userID", response.data.id);
       $scope.getUserPlaylists();
-      $scope.createPlaylist();
     });
 
     // maybe check if token's valid - OTHER FUNCTION
@@ -65,38 +61,68 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.getUserPlaylists = function(){
     $http.get("https://api.spotify.com/v1/me/playlists",  { headers: { Authorization: "Bearer " + oauth.access_token}}).then(function(response){
       $scope.playlists = response.data.items;
-      console.log($scope.playlists);
+      console.log("Playlists: ", $scope.playlists);
       for (var i = 0; i < $scope.playlists.length; i++) {
-        if($scope.playlists[i].images[0].url) {
-          console.log("This item has an image");
-        }else {
-          console.log("This item does not");
+        if(!$scope.playlists[i].images.length) {
+          $scope.playlists[i].images[0] = {"url": "./images/album-default.jpg"};
         }
       }
-
     });
   }
 
-  $scope.createPlaylist = function(playlistTitle){
+
+  $scope.createPlaylist = function(playlistTitle, albumArt){
     $http({
       method: 'POST',
-      url: 'https://api.spotify.com/v1/users/me/playlists',
-      data: "name=" + playlistTitle,
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + 'oauth.access_token'}
+      url: "https://api.spotify.com/v1/users/" + $scope.userId + "/playlists",
+      data: JSON.stringify({
+        "name": playlistTitle
+      }),
+      headers: { "Authorization": "Bearer " + oauth.access_token, "Content-Type": "application/json" }
     }).then(function(response){
+      $scope.getUserPlaylists();
+    });
+  }
+
+  $scope.getPlaylistInfo = function(){
+    //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
+    $http.get("https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
+      console.log("Playlist Info: ", response);
+      $scope.playlist = response.data;
+      $scope.tracks = response.data.tracks.items;
+      for (var i = 0; i < $scope.tracks.length; i++) {
+        $scope.artists = $scope.tracks[i].track.artists;
+      }
+    });
+  }
+
+  $scope.searchSongs = function(search){
+    $http.get("https://api.spotify.com/v1/search?q="+ search + "&type=track&limit=10&type=artist&limit=10").then(function(response){
       console.log(response);
-    });
+      $scope.trackUri = [];
+      $scope.searchResults = response.data.tracks.items;
+      for (var i = 0; i < $scope.searchResults.length; i++) {
+        $scope.trackUri.push($scope.searchResults[i].uri) ;
+      }
+    })
   }
 
-  $scope.getPlaylistTracks = function(){
+  $scope.addTrack = function($index){
+
+    console.log($index);
+    $http({
+      method: 'POST',
+      url: "https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
+      data: JSON.stringify({
+        "uris": [$scope.trackUri[$index]]
+      }),
+      headers: { "Authorization": "Bearer " + Cookies.get("spotify_token"), "Content-Type": "application/json" }
+    }).then(function(response){
+      $scope.getPlaylistInfo();
+      console.log("Track added to playlist!");
+    })
+
   }
-
-  $scope.addFriend = function(){
-    $http.put("https://api.spotify.com/v1/me/following", { headers: { Authorization: "Bearer " + oauth.access_token}}).then(function(response){
-    });
-  }
-
-
 
 
   //look up refresh token, to see if your current token is valid
@@ -116,9 +142,9 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
   $scope.getFriends = function(){} // gets your friends from Mongo
 
-  $scope.update_user = function(){} // update users
+  $scope.updateUser = function(){} // update users
 
-  $scope.add_friend = function(){} // add a friend to a user
+  $scope.addFriend = function(){} // add a friend to a user
   //ajax put route
 
 }]) // controller
