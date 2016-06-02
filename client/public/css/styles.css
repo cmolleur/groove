@@ -195,7 +195,7 @@ i.caret, i.right {
   .playlist li {
     padding: 15px;
     border-radius: 5px;
-    width: 100%;
+    width: 100%! important;
     background-color: #F0493E;
     margin-bottom: 15px;
     color: white;
@@ -218,7 +218,7 @@ i.caret, i.right {
     display: none;
   }
   .playlist {
-    min-width: auto;
+    min-width: inherit;;
   }
   i.caret, i.right {
     display: block;
