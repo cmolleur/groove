@@ -74,7 +74,7 @@
                        <a ng-click="followPlaylist($index)"><i class="add circle icon"></i></a>
                      </div>
                      <div id="playlistresults" class="right">
-                       {{singlePlaylist.name}}<p class="artist">Owner: {{singlePlaylist.owner.id}}</p><!-- RESULTS GO HEREEEEEE!! -->
+                       {{singlePlaylist.name | limitTo : 70 : 0}}<p class="artist">Owner: {{singlePlaylist.owner.id}}</p><!-- RESULTS GO HEREEEEEE!! -->
                      </div>
                   </div>
                 </li>
@@ -119,9 +119,9 @@
               <a href="/playlist/{{playlist.id}}" ng-repeat="playlist in playlists">
                 <li >
                   <div class="playlist-title">
-                    <h3>{{playlist.name}}</h3>
+                    <h4>{{playlist.name}}</h4>
                     <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
-                    <h5>Shared With: </h5>
+                    <!-- <h5>Shared With: </h5> -->
                   </div>
                   <i class="caret right icon"></i>
                 </li>
