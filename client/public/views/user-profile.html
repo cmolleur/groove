@@ -21,6 +21,8 @@
     <script src="../js/scripts.js" charset="utf-8"></script>
     <script src="../js/controllers/main.js" charset="utf-8"></script>
 
+
+
   </head>
   <body ng-controller="OAuthController" ng-init="getUserInfo()">
 
@@ -91,18 +93,21 @@
 
       <div class="ui vertically divided grid">
         <div id="headers" class="one column row">
+
           <div class="title">
             <h1>Your Friends</h1>
           </div>
+
           <div class="add">
             <div class="ui search">
               <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Add Friend...">
+                <input class="prompt" id="search-playlists" type="text" placeholder="Follow a Playlist">
                 <i class="search icon"></i>
               </div>
               <div class="results"></div>
             </div>
           </div>
+
         </div>
 
         <div class="one column row">

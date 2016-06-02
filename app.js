@@ -66,6 +66,6 @@ io.on('connection', function(socket){
 
 var port = process.env.PORT || 8080;
 
-app.listen( port, function(){
+http.listen( port, function(){
   console.log( 'Free margaritas on Port:8080' );
 });

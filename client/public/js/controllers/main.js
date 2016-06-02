@@ -44,8 +44,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       //   $scope.getFriends()
       //
       // });
-
       $scope.user = response.data.display_name.split(" ")[0];
+      Cookies.set("userFirstName", response.data.display_name.split(" ")[0]);
       $scope.userId = response.data.id;
       Cookies.set("userID", response.data.id);
       $scope.getUserPlaylists();
@@ -88,6 +88,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
     $http.get("https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
       console.log("Playlist Info: ", response);
+
+      $scope.firstName = Cookies.get("userFirstName");
       $scope.playlist = response.data;
       $scope.tracks = response.data.tracks.items;
       for (var i = 0; i < $scope.tracks.length; i++) {
@@ -119,7 +121,6 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       headers: { "Authorization": "Bearer " + Cookies.get("spotify_token"), "Content-Type": "application/json" }
     }).then(function(response){
       $scope.getPlaylistInfo();
-      console.log("Track added to playlist!");
     })
 
   }
