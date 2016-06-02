@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Groove | Play</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.1/js.cookie.min.js" charset="utf-8"></script>
@@ -32,8 +32,8 @@
       <a href="/"><button class="ui button" ng-click="logOut()">Logout</button></a>
     </nav>
     <div class="ui container">
-      <!-- <a href="/user-profile">
-        <i class="angle double left icon"></i>View All Playlist</a> -->
+      <a href="/user-profile">
+        <i class="angle double left icon"></i>View All Playlist</a>
 
       <div class="ui vertically divided grid">
 
@@ -108,7 +108,7 @@
 
                   <div class="ui search">
                     <div class="ui icon input full-width">
-                      <input id="m" class="prompt" type="text" placeholder="Message">
+                      <input id="m" class="prompt" autocomplete="off" type="text" placeholder="Message">
                       <i class="comments icon"></i>
                     </div>
                   </div>

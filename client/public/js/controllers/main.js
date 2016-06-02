@@ -3,13 +3,13 @@ var app = angular.module("GrooveApp", [])
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
-    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=https://groovemusic.herokuapp.com/user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify'
+    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=http://localhost:8080/user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify'
   }
 
   $scope.getUserInfo = function(){
     //get users info, including the access_token
     var callbackResponse = (document.URL).split("#")[1];
-    var responseParameters = callbackResponse.split("&");
+    var responseParameters = callbackResponse ? callbackResponse.split("&") : [];
     params = {}
     // oauth;
 
@@ -18,15 +18,28 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       params[ parameters[0] ] = parameters[1];
     })
 
-    if( params.access_token ){
+    console.log(Cookies.get("spotify_token"), params.access_token);
+
+
+    if( Cookies.get("spotify_token") !== "undefined" ){
+      oauth = {access_token: Cookies.get("spotify_token")};
+      // Cookies.set("spotify_token", oauth.access_token);
+        // consider adding the expires in and starting a timer
+      // console.log("oauth: ", oauth);
+      // console.log('should not run');
+    } else if (params.access_token){
       oauth = {access_token: params.access_token};
       Cookies.set("spotify_token", oauth.access_token);
         // consider adding the expires in and starting a timer
-      console.log("oauth: ", oauth);
-    } else {
-      console.log("Problem Authenticating!");
-      $window.location.href = "https://groovemusic.herokuapp.com"
+      // console.log("oauth: ", oauth);
+    }else {
+      // console.log("Problem Authenticating!");
+      $window.location.href = "http://localhost:8080/"
     }
+
+    // remove ugly hash parameters
+    $window.location.hash = '';
+
 
     console.log( "params: ", params )
 
@@ -87,7 +100,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.getPlaylistInfo = function(){
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
     $http.get("https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
-      console.log("Playlist Info: ", response);
+      console.log("This Playlist Info: ", response);
 
       $scope.firstName = Cookies.get("userFirstName");
       $scope.playlist = response.data;

@@ -75,7 +75,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
+  /*padding: 15px;*/
   border-bottom: 1px solid #e0e0e0;
 }
 #logomark {
@@ -167,8 +167,9 @@ i.circle {
   width: 100%;
 }
 .chatbox {
-  height: 88%;
+  height: 84%;
   overflow-y: auto;
+  margin-bottom: 15px;
 }
 .column {
   overflow: hidden;
@@ -177,6 +178,13 @@ i.caret, i.right {
   font-size: 1.5em;
   display: none;
 }
+#messages {
+  padding: 0;
+}
+#messages li {
+  margin-bottom: 5px;
+}
+
 
 
 /****************/
