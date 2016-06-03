@@ -74,7 +74,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       // });
       $scope.userId = response.data.id;
       $scope.user = response.data.display_name ? response.data.display_name.split(" ")[0] : $scope.userId;
-      Cookies.set("userFirstName", response.data.display_name.split(" ")[0]);
+      Cookies.set("userFirstName", $scope.user);
       Cookies.set("userID", $scope.userId);
       $scope.getUserPlaylists();
     }, $scope.isTokenValid);
