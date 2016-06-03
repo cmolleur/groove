@@ -116,16 +116,18 @@
         <div class="one column row">
           <div id="all-playlists"  class="column">
             <ul class="playlist">
-              <a href="/playlist/{{playlist.id}}" ng-repeat="playlist in playlists">
-                <li >
-                  <div class="playlist-title">
-                    <h4>{{playlist.name}}</h4>
-                    <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
-                    <!-- <h5>Shared With: </h5> -->
-                  </div>
-                  <i class="caret right icon"></i>
-                </li>
-              </a>
+
+                <a href="/playlist/{{playlist.id}}" ng-click="setID(playlist.owner.id)" ng-repeat="playlist in playlists">
+                  <li >
+                    <div class="playlist-title">
+                      <h4>{{playlist.name}}</h4>
+                      <img class="playlist-art" ng-src="{{playlist.images[0].url}}" alt="" />
+                      <!-- <h5>Shared With: </h5> -->
+                    </div>
+                    <i class="caret right icon"></i>
+                  </li>
+                </a>
+
             </ul>
           </div>
         </div>

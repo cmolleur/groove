@@ -75,7 +75,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       $scope.userId = response.data.id;
       $scope.user = response.data.display_name ? response.data.display_name.split(" ")[0] : $scope.userId;
       Cookies.set("userFirstName", $scope.user);
-      Cookies.set("userID", $scope.userId);
+      // Cookies.set("userID", $scope.userId);
       $scope.getUserPlaylists();
     }, $scope.isTokenValid);
 
@@ -97,7 +97,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
           $scope.playlists[i].images[0] = {"url": "./images/album-default.jpg"};
         }
       $scope.playlistOwner = $scope.playlists[i].owner.id;
-      Cookies.set("ownerId", $scope.playlistOwner)
+      console.log("current owner: " + $scope.playlistOwner);
+      Cookies.set("ownerId", $scope.playlistOwner);
       }
     }, $scope.isTokenValid);
   }
@@ -117,10 +118,16 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     }, $scope.isTokenValid);
   }
 
+  $scope.setID = function(id){
+    console.log("yo dawg, the id is now: " + id );
+    Cookies.set("thingy", id);
+  }
+
   $scope.getPlaylistInfo = function(){
+    console.log(Cookies.get("ownerId"));
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
     // https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}
-    $http.get("https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
+    $http.get("https://api.spotify.com/v1/users/" + Cookies.get("thingy") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
         console.log("This Playlist Info: ", response);
         $scope.firstName = Cookies.get("userFirstName");
         $scope.playlist = response.data;
