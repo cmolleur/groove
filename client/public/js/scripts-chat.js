@@ -9,8 +9,12 @@ $(document).ready(function(){
     return false;
   });
   socket.on('chat message', function(msg){
-    var firstName = Cookies.get("userFirstName");
-    $('#messages').append($('<li>').text(firstName + ": " + msg));
+    // var firstName = Cookies.get("userFirstName");
+    if (true) {
+
+    }
+    // $('#messages').append($('<li>').text(firstName + ": " + msg));
+    $('#messages').append($('<li>').text(msg));
   });
 
 
