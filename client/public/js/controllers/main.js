@@ -5,13 +5,14 @@ var redirectURI = "https://groovemusic.herokuapp.com/"
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
+    console.log("redirecting")
     $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=' +  redirectURI + 'user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify'
   }
 
   $scope.isTokenValid = function(response){
     if (response.status === 401) {
       Cookies.remove("spotify_token");
-      $window.location.href = redirectURI;
+      $scope.redirect();
     }
   }
 
@@ -30,7 +31,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     console.log(Cookies.get("spotify_token"), params.access_token);
 
 
-    if( Cookies.get("spotify_token") !== "undefined" ){
+    if( Cookies.get("spotify_token") && Cookies.get("spotify_token") !== "undefined"  ){
       oauth = {access_token: Cookies.get("spotify_token")};
       // oauth = {}
       // oauth.access_token =  params.access_token || Cookies.get("spotify_token");
@@ -55,6 +56,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
 
     // console.log( "params: ", params )
+    // alert(oauth.access_token)
 
     $http.get("https://api.spotify.com/v1/me/", { headers: { Authorization: "Bearer " + oauth.access_token} }).then(function(response){
       console.log("Response ", response);
