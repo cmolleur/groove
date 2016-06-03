@@ -17,7 +17,8 @@ $(document).ready(function(){
     }
     // $('#messages').append($('<li>').text(firstName + ": " + msg));
     $('#messages').append($('<li>').text(msg));
-    $('.chatbox').scrollTop($('.chatbox')[0].scrollHeight);
+    var d = $('.chatbox');
+    d.scrollTop(d.prop("scrollHeight"));
   });
 
 

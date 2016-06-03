@@ -179,7 +179,8 @@ i.caret, i.right {
   display: none;
 }
 #messages {
-  padding: 0;
+  /*padding: 0;*/
+  list-style-type: circle;
 }
 #messages li {
   margin-bottom: 5px;
