@@ -1,5 +1,7 @@
 var app = angular.module("GrooveApp", [])
 var redirectURI = "https://groovemusic.herokuapp.com/"
+// var redirectURI = "http://localhost:8080/"
+
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
@@ -22,9 +24,10 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
 
     if( Cookies.get("spotify_token") !== "undefined" ){
-      oauth = {access_token: Cookies.get("spotify_token")};
-      // oauth = {access_token: params.access_token};
-      // Cookies.set("spotify_token", oauth.access_token);
+      // oauth = {access_token: Cookies.get("spotify_token")};
+      oauth = {}
+      oauth.access_token =  params.access_token || Cookies.get("spotify_token");
+      Cookies.set("spotify_token", oauth.access_token);
 
 
 
