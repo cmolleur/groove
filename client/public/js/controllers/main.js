@@ -6,7 +6,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
   $scope.redirect = function(){
     console.log("redirecting")
-    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=' +  redirectURI + 'user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify%20playlist-modify-public%20playlist-modify-private'
+    $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=' +  redirectURI + 'user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20playlist-modify-private'
   }
 
   $scope.isTokenValid = function(response){
