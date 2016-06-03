@@ -246,6 +246,7 @@ i.caret, i.right {
   }
   #all-playlists {
     overflow-x: auto;
+    padding: 0;
   }
   video {
     display: none;
