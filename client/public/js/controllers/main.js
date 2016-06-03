@@ -72,10 +72,10 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       //   $scope.getFriends()
       //
       // });
-      $scope.user = response.data.display_name.split(" ")[0];
-      Cookies.set("userFirstName", response.data.display_name.split(" ")[0]);
       $scope.userId = response.data.id;
-      Cookies.set("userID", response.data.id);
+      $scope.user = response.data.display_name ? response.data.display_name.split(" ")[0] : $scope.userId;
+      Cookies.set("userFirstName", response.data.display_name.split(" ")[0]);
+      Cookies.set("userID", $scope.userId);
       $scope.getUserPlaylists();
     }, $scope.isTokenValid);
 
