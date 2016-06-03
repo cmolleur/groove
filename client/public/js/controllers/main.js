@@ -11,7 +11,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.isTokenValid = function(response){
     if (response.status === 401) {
       Cookies.remove("spotify_token");
-      $window.location.href = redirectURI + "user-profile";
+      $window.location.href = redirectURI;
     }
   }
 
