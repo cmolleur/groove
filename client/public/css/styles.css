@@ -187,8 +187,14 @@ i.caret, i.right {
 .left {
   margin-right: 10px;
 }
-
-
+.video-image {
+  visibility: hidden;
+  background-image: url("../video/Snapshots/Plug-and-Play.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+}
 
 /****************/
 /*MEDIA QUERIES*/
@@ -241,6 +247,14 @@ i.caret, i.right {
   #all-playlists {
     overflow-x: auto;
   }
+  video {
+    display: none;
+  }
+  .video-image {
+    visibility: visible;
+
+  }
+
 }
 @media (max-width: 729px) {
   .ui.grid>[class*="two column"].row>.column {
@@ -255,15 +269,5 @@ i.caret, i.right {
     width: 90px;
     height: 90px;
   }
-}
-@media all and (max-width: 630px) {
-  video {
-    display: none;
-  }
-  .video-poster {
-    background-image: url("../video/Snapshots/Plug-and-Play.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-  }
+
 }
