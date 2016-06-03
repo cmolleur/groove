@@ -1,11 +1,18 @@
 var app = angular.module("GrooveApp", [])
-var redirectURI = "https://groovemusic.herokuapp.com/"
-// var redirectURI = "http://localhost:8080/"
+// var redirectURI = "https://groovemusic.herokuapp.com/"
+var redirectURI = "http://localhost:8080/"
 
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
   $scope.redirect = function(){
     $window.location.href = 'https://accounts.spotify.com/authorize/?client_id=6df5a5da139441d2842b4483b6370c13&show_dialog=true&response_type=token&redirect_uri=' +  redirectURI + 'user-profile&state=spotify_authorization_redirect&scope=user-read-email%20playlist-read-private%20playlist-read-collaborative%20playlist-modify'
+  }
+
+  $scope.isTokenValid = function(response){
+    if (response.status === 401) {
+      Cookies.remove("spotify_token");
+      $window.location.href = redirectURI + "/user-profile";
+    }
   }
 
   $scope.getUserInfo = function(){
@@ -24,17 +31,15 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
 
     if( Cookies.get("spotify_token") !== "undefined" ){
-      // oauth = {access_token: Cookies.get("spotify_token")};
-      oauth = {}
-      oauth.access_token =  params.access_token || Cookies.get("spotify_token");
-      Cookies.set("spotify_token", oauth.access_token);
-
+      oauth = {access_token: Cookies.get("spotify_token")};
+      // oauth = {}
+      // oauth.access_token =  params.access_token || Cookies.get("spotify_token");
+      // Cookies.set("spotify_token", oauth.access_token);
 
 
       // Cookies.set("spotify_token", oauth.access_token);
         // consider adding the expires in and starting a timer
       // console.log("oauth: ", oauth);
-      console.log("help me I'm broken!");
     } else if (params.access_token){
       oauth = {access_token: params.access_token};
       Cookies.set("spotify_token", oauth.access_token);
@@ -42,7 +47,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       // console.log("oauth: ", oauth);
     }else {
       // console.log("Problem Authenticating!");
-      $window.location.href = redirectURI
+      $scope.redirect();
     }
 
     // remove ugly hash parameters
@@ -70,13 +75,15 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       $scope.userId = response.data.id;
       Cookies.set("userID", response.data.id);
       $scope.getUserPlaylists();
-    });
+    }, $scope.isTokenValid);
 
     // maybe check if token's valid - OTHER FUNCTION
 
     // use the users current accesstoken to access spotify = OTHER FUNCTION
 
   };
+
+
 
 
   $scope.getUserPlaylists = function(){
@@ -88,7 +95,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
           $scope.playlists[i].images[0] = {"url": "./images/album-default.jpg"};
         }
       }
-    });
+    }, $scope.isTokenValid);
   }
 
 
@@ -103,23 +110,21 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       headers: { "Authorization": "Bearer " + oauth.access_token, "Content-Type": "application/json" }
     }).then(function(response){
       $scope.getUserPlaylists();
-    });
+    }, $scope.isTokenValid);
   }
 
   $scope.getPlaylistInfo = function(){
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
     $http.get("https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
-      console.log("This Playlist Info: ", response);
-
-      $scope.firstName = Cookies.get("userFirstName");
-      $scope.playlist = response.data;
-      $scope.followers = response.data.followers.total;
-      $scope.tracks = response.data.tracks.items;
-      for (var i = 0; i < $scope.tracks.length; i++) {
-        $scope.artists = $scope.tracks[i].track.artists;
-      }
-
-    });
+        console.log("This Playlist Info: ", response);
+        $scope.firstName = Cookies.get("userFirstName");
+        $scope.playlist = response.data;
+        $scope.followers = response.data.followers.total;
+        $scope.tracks = response.data.tracks.items;
+        for (var i = 0; i < $scope.tracks.length; i++) {
+          $scope.artists = $scope.tracks[i].track.artists;
+        }
+    }, $scope.isTokenValid);
   }
 
   $scope.searchSongs = function(search){
@@ -157,7 +162,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       headers: { "Authorization": "Bearer " + Cookies.get("spotify_token"), "Content-Type": "application/json" }
     }).then(function(response){
       $scope.getPlaylistInfo();
-    })
+    }, $scope.isTokenValid)
   }
 
   $scope.followPlaylist = function(){
@@ -168,7 +173,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       headers: { "Authorization": "Bearer " + Cookies.get("spotify_token"), "Content-Type": "application/json" }
     }).then(function(response){
       console.log("Successfully followed!");
-    })
+    }, $scope.isTokenValid)
   }
 
 

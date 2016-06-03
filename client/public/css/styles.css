@@ -194,14 +194,15 @@ i.caret, i.right {
 /*MEDIA QUERIES*/
 /****************/
 @media (max-width: 539px) {
-  /*#headers {
+  #headers {
     display: block;
-  }*/
+  }
   .welcome-header {
     font-size: 27px;
   }
   .add {
     margin-top: 15px;
+    font-size: 18px;
   }
   .playlist li {
     padding: 15px;
@@ -220,7 +221,7 @@ i.caret, i.right {
   .playlist li img {
     display: none;
   }
-  .playlist li h3 {
+  .playlist li h4 {
     font-size: 24px;
     color: white;
     margin-bottom: 0;
