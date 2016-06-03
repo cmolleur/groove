@@ -252,7 +252,13 @@ i.caret, i.right {
   }
   .video-image {
     visibility: visible;
-
+  }
+  .playlist-title {
+    width: 90%;
+    white-space: normal;
+  }
+  .title h1 {
+    font-size: 24px;
   }
 
 }
