@@ -197,6 +197,9 @@ i.caret, i.right {
   #headers {
     display: block;
   }
+  #headers h1 {
+    font-size:
+  }
   .welcome-header {
     font-size: 27px;
   }
@@ -251,5 +254,16 @@ i.caret, i.right {
   .img-thumb {
     width: 90px;
     height: 90px;
+  }
+}
+@media all and (max-width: 630px) {
+  video {
+    display: none;
+  }
+  .homepage-hero-module {
+    background-image: url("../video/Snapshots/Plug-and-Play.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 }
