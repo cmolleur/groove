@@ -2,10 +2,6 @@ console.log("Scripts loading...");
 
 $(document).ready(function(){
 
-  function updateScroll(){
-    var element = document.getElementByClass("chatbox");
-    element.scrollTop = element.scrollHeight;
-  }
 
 
   var socket = io();
@@ -21,7 +17,7 @@ $(document).ready(function(){
     }
     // $('#messages').append($('<li>').text(firstName + ": " + msg));
     $('#messages').append($('<li>').text(msg));
-    updateScroll();
+    $('.chatbox').scrollTop($('.chatbox')[0].scrollHeight);
   });
 
 
