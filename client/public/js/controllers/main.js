@@ -97,7 +97,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
           $scope.playlists[i].images[0] = {"url": "./images/album-default.jpg"};
         }
       $scope.playlistOwner = $scope.playlists[i].owner.id;
-      Cookies.set("ownerId", $scope.playlistOwner)  
+      Cookies.set("ownerId", $scope.playlistOwner)
       }
     }, $scope.isTokenValid);
   }
@@ -160,7 +160,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.addTrack = function($index){
     $http({
       method: 'POST',
-      url: "https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + Cookies.get("userId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
       data: JSON.stringify({
         "uris": [$scope.trackUri[$index]]
       }),
