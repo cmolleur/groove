@@ -96,6 +96,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
         if(!$scope.playlists[i].images.length) {
           $scope.playlists[i].images[0] = {"url": "./images/album-default.jpg"};
         }
+      $scope.playlistOwner = $scope.playlists[i].owner.id;
+      Cookies.set("ownerId", $scope.playlistOwner)  
       }
     }, $scope.isTokenValid);
   }
@@ -148,7 +150,6 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       for (var i = 0; i < $scope.allSearchedPlaylists.length; i++) {
         $scope.followplaylistId = $scope.allSearchedPlaylists[i].id
         $scope.playlistOwnerId = $scope.allSearchedPlaylists[i].owner.id;
-        Cookies.set("ownerId", $scope.playlistOwnerId)
       }
       if (response == 0) {
         alert("No such playlist, search again")
