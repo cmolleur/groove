@@ -160,7 +160,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.addTrack = function($index){
     $http({
       method: 'POST',
-      url: "https://api.spotify.com/v1/users/" + Cookies.get("userId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
       data: JSON.stringify({
         "uris": [$scope.trackUri[$index]]
       }),
