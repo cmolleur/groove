@@ -117,7 +117,8 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
 
   $scope.getPlaylistInfo = function(){
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
-    $http.get("https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
+    // https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}
+    $http.get("https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
         console.log("This Playlist Info: ", response);
         $scope.firstName = Cookies.get("userFirstName");
         $scope.playlist = response.data;
@@ -147,6 +148,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       for (var i = 0; i < $scope.allSearchedPlaylists.length; i++) {
         $scope.followplaylistId = $scope.allSearchedPlaylists[i].id
         $scope.playlistOwnerId = $scope.allSearchedPlaylists[i].owner.id;
+        Cookies.set("ownerId", $scope.playlistOwnerId)
       }
       if (response == 0) {
         alert("No such playlist, search again")
@@ -157,7 +159,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
   $scope.addTrack = function($index){
     $http({
       method: 'POST',
-      url: "https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
       data: JSON.stringify({
         "uris": [$scope.trackUri[$index]]
       }),
