@@ -75,7 +75,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       $scope.userId = response.data.id;
       $scope.user = response.data.display_name ? response.data.display_name.split(" ")[0] : $scope.userId;
       Cookies.set("userFirstName", $scope.user);
-      // Cookies.set("userID", $scope.userId);
+      Cookies.set("userID", $scope.userId);
       $scope.getUserPlaylists();
     }, $scope.isTokenValid);
 
@@ -169,7 +169,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     console.log(Cookies.get("ownerId"));
     $http({
       method: 'POST',
-      url: "https://api.spotify.com/v1/users/" + Cookies.get("ownerId") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + Cookies.get("userID") + "/playlists/" + document.URL.split("/").pop() + "/tracks",
       data: JSON.stringify({
         "uris": [$scope.trackUri[$index]]
       }),
