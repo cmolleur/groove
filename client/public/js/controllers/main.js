@@ -1,6 +1,6 @@
 var app = angular.module("GrooveApp", [])
-var redirectURI = "https://groovemusic.herokuapp.com/"
-// var redirectURI = "http://localhost:8080/"
+// var redirectURI = "https://groovemusic.herokuapp.com/"
+var redirectURI = "http://localhost:8080/"
 
 app.controller("OAuthController", ["$scope", "$http", "$window", function($scope, $http, $window){
 
@@ -123,8 +123,13 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
     Cookies.set("thingy", id);
   }
 
+  $scope.isOwner = function(){
+    if (Cookies.get("userID") !== Cookies.get("ownerId")) {
+    }else {
+    }
+  }
+
   $scope.getPlaylistInfo = function(){
-    console.log(Cookies.get("ownerId"));
     //when you change this app to one-page, you can add $scope.userId instead of Cookies.get... etc.
     // https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}
     $http.get("https://api.spotify.com/v1/users/" + Cookies.get("thingy") + "/playlists/" + document.URL.split("/").pop(),  { headers: { Authorization: "Bearer " + Cookies.get("spotify_token")}}).then(function(response){
@@ -137,6 +142,13 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
           $scope.artists = $scope.tracks[i].track.artists;
         }
     }, $scope.isTokenValid);
+    if (Cookies.get("userID") !== Cookies.set("thingy")) {
+      var notYours = document.getElementById("not-yours");
+      notYours.innerHTML = "You cannot add songs to the playlist of others."
+    }else {
+      console.log("This is your paylist!");
+    }
+
   }
 
   $scope.searchSongs = function(search){
@@ -163,6 +175,7 @@ app.controller("OAuthController", ["$scope", "$http", "$window", function($scope
       }
     })
   }
+
 
   $scope.addTrack = function($index){
     // POST https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
